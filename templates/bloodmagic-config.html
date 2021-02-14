@@ -1,0 +1,35 @@
+<div class="tab active" data-tab="general">
+  <h2>{{localize "bloodmagic.poptitle"}}</h2>
+  <form autocomplete="off" class="bloodmagic">
+
+    <hr>
+    <p><b>{{localize "bloodmagic.spellPointsCostsTitle"}}</b></p>
+    {{#each spellPointsCosts as |cost level|}}
+    <div class="form-group">
+      <label>{{ spFormat "bloodmagic.costLabel" slotLevel=level }}</label>
+      <input style="flex:0.2;text-align:right;" max="999" min="0" size="3" name="spellPointsCosts.{{level}}" value="{{ cost }}" type="number" data-dtype="number"/>
+    </div>
+    {{/each}}
+    <p>{{localize "bloodmagic.spellPointsCostsNote"}}</p>
+
+    <hr>
+    <p><b>{{localize "bloodmagic.AMTitle"}}</b></p>
+    <div class="form-group">
+      <label>{{localize "bloodmagic.spLifeCostLabel"}}</label>
+      <input style="flex:0.2;text-align:right;" max="999" min="0" size="3" type="number" data-dtype="number" name="spLifeCost" value="{{ spLifeCost }}"/>
+      <p class="notes">{{localize "bloodmagic.spLifeCostNote"}}</p>
+    </div>
+
+    <hr>
+
+    <div class="form-group" style="margin: 10px;">
+      <button type="submit" name="submit">
+        <i class="fas fa-save"></i> {{localize "bloodmagic.save"}}
+      </button>
+      <button type="button" name="reset">
+        <i class="fas fa-undo"></i> {{localize "bloodmagic.reset"}}
+      </button>
+    </div>
+
+  </form>
+</div>
