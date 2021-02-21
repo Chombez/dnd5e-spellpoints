@@ -79,16 +79,30 @@ class BloodMagic {
     const postCastSlotCount = getProperty(update, "data.spells." + spellLvlNames[spellLvlIndex] + ".value");
     let maxSlots = getProperty(origSlots, spellLvlNames[spellLvlIndex] + ".max");
 
-    // Do lvl6+ restrictions here (can only cast one spell per level above 6 per long rest)
-
     let slotCost = preCastSlotCount - postCastSlotCount;
 
-    /** restore slots to the max **/
+    /** restore slots to the max if spell level less than 6 **/
     if (typeof maxSlots === undefined) {
       maxSlots = 1;
       update.data.spells[spellLvlNames[spellLvlIndex]].max = maxSlots;
     }
-    update.data.spells[spellLvlNames[spellLvlIndex]].value = maxSlots;
+    if (spellLvl < 6) {
+      // Regular low level spell cast, reset spell slots to max
+      update.data.spells[spellLvlNames[spellLvlIndex]].value = maxSlots;
+    } else {
+      // Spell lvl 6+
+      if (postCastSlotCount == maxSlots) {
+        // This triggered on a long rest, a spell is not being cast
+        return update;
+      }
+      // Can only cast one spell per level above 6 per long rest)
+      ChatMessage.create({
+        content: "<i style='color:red;'>"+game.i18n.format("bloodmagic.castPowerSpell", { ActorName : actor.data.name, SpellLvl : spellLvl })+"</i>",
+        speaker: ChatMessage.getSpeaker({ alias: actor.data.name })
+      });
+      // Block this level spell being cast again till long rest
+      update.data.spells[spellLvlNames[spellLvlIndex]].value = 0;
+    }
 
    /* get spell cost in spellpoints */
     const spellPointCost = this.settings.spellPointsCosts[spellLvl];
@@ -144,7 +158,7 @@ class BloodMagic {
     let spellPointCost = this.settings.spellPointsCosts[baseSpellLvl];
 
     if (currentHp - spellPointCost < 0) {
-      $('#ability-use-form', html).append('<div class="spError">'+game.i18n.format("bloodmagic.youNotEnough")+'</div>');
+      $('#ability-use-form', html).append('<div class="spError">'+game.i18n.localize("bloodmagic.youNotEnough")+'</div>');
     }
 
     let copyButton = $('.dialog-button', html).clone();
@@ -268,6 +282,7 @@ Hooks.on('init', () => {
 
 // collate all preUpdateActor hooked functions into a single hook call
 Hooks.on("preUpdateActor", async (actor, update, options, userId) => {
+  console.log(MODULE_NAME, 'preUpdateActor', actor, update, options);
   update = BloodMagic.castSpell(actor, update);
 });
 

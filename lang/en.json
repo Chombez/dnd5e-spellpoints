@@ -8,11 +8,12 @@
   "bloodmagic.spellPointsCostsNote": "You don't need to change the spell point costs if you are using the default spellpoint rules on DMG (page 288).",
   "bloodmagic.AMTitle": "Blood Magic - Spell Points System 5e",
   "bloodmagic.spLifeCostLabel": "HP Cost multiplier",
-  "bloodmagic.spLifeCostNote": "How many Hit Points Maximum a character will lose casting a spell with his own life. This is a multiplier. ex: if set to 2 a character casting a Spell with a cost of 2 spell points will lose 4 hp max. (default:1)",
+  "bloodmagic.spLifeCostNote": "How many Hit Points Maximum a character will lose casting a spell with their own life. This is a multiplier. ex: if set to 2 a character casting a Spell with a cost of 2 spell points will lose 4 hp max. (default:1)",
   "bloodmagic.use-bloodmagic": "This character uses Blood Magic",
-  "bloodmagic.castedLifeDead": "{ActorName} casted using his last Hit Points!",
-  "bloodmagic.castedLife": "{ActorName} casted using his own life losing {hpLost} Hit Points",
+  "bloodmagic.castedLifeDead": "{ActorName} casted using their last Hit Points!",
+  "bloodmagic.castedLife": "{ActorName} casted using their own life losing {hpLost} Hit Points",
   "bloodmagic.youNotEnough": "You don't have enough Hit Points to cast this spell.",
+  "bloodmagic.castPowerSpell": "{ActorName} cast their only spell of level {SpellLvl}",
   "bloodmagic.save": "Save",
   "bloodmagic.reset": "Reset"
 }
