@@ -142,8 +142,16 @@ class BloodMagic {
 
     /** check if this is a spell **/
     let isSpell = false;
-    if ( dialog.item.data.type === "spell" )
+    if ( dialog.item.data.type === "spell" ) {
+      if ( dialog.item.data.data.preparation.mode === "atwill" || dialog.item.data.data.preparation.mode === "innate" )
+        // Ignore for at-will or innate spells
+        return
+
       isSpell = true;
+    }
+
+    if (!isSpell)
+      return;
 
     console.log(MODULE_NAME,'is spell');
 
@@ -151,10 +159,7 @@ class BloodMagic {
     // spell level can change later if casting it with a greater slot, baseSpellLvl is the default
     const baseSpellLvl = spell.data.level;
 
-    if (!isSpell)
-      return;
-
-    let currentHp = getProperty(actor, "data.attributes.hp.value");
+    let currentHp = getProperty(actor, "data.data.attributes.hp.value");
     let spellPointCost = this.settings.spellPointsCosts[baseSpellLvl];
 
     if (currentHp - spellPointCost < 0) {
